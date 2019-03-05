@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.project.module.commodity.mapper.CommodityMapper">
+    
+    <resultMap type="com.manage.project.module.commodity.domain.Commodity" id="CommodityResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="name"    column="name"    />
+        <result property="image"    column="image"    />
+        <result property="unit"    column="unit"    />
+        <result property="number"    column="number"    />
+        <result property="factoryCode"    column="factory_code"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+	
+	<sql id="selectCommodityVo">
+        select id, code, name, image, unit, number, factory_code, create_date, remark, del_flag from w_commodity
+    </sql>
+	
+    <select id="selectCommodityList" parameterType="Commodity" resultMap="CommodityResult">
+        <include refid="selectCommodityVo"/>
+        <where>  
+            <if test="id != null and id != ''"> and id = #{id}</if>
+             <if test="code != null and code != ''"> and code = #{code}</if>
+             <if test="name != null and name != ''"> and name = #{name}</if>
+             <if test="image != null and image != ''"> and image = #{image}</if>
+             <if test="unit != null and unit != ''"> and unit = #{unit}</if>
+             <if test="number != null and number != ''"> and number = #{number}</if>
+             <if test="factoryCode != null and factoryCode != ''"> and factory_code = #{factoryCode}</if>
+             <if test="createDate != null and createDate != ''"> and create_date = #{createDate}</if>
+             <if test="remark != null and remark != ''"> and remark = #{remark}</if>
+             <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag}</if>
+         </where>
+    </select>
+    
+    <select id="selectCommodityById" parameterType="Integer" resultMap="CommodityResult">
+        <include refid="selectCommodityVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCommodity" parameterType="Commodity">
+        insert into w_commodity
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">id,</if>
+			<if test="code != null and code != '' ">code,</if>
+			<if test="name != null and name != '' ">name,</if>
+			<if test="image != null and image != '' ">image,</if>
+			<if test="unit != null and unit != '' ">unit,</if>
+			<if test="number != null and number != '' ">number,</if>
+			<if test="factoryCode != null and factoryCode != '' ">factory_code,</if>
+			<if test="createDate != null and createDate != '' ">create_date,</if>
+			<if test="remark != null and remark != '' ">remark,</if>
+			<if test="delFlag != null and delFlag != '' ">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != ''">#{id},</if>
+			<if test="code != null and code != ''">#{code},</if>
+			<if test="name != null and name != ''">#{name},</if>
+			<if test="image != null and image != ''">#{image},</if>
+			<if test="unit != null and unit != ''">#{unit},</if>
+			<if test="number != null and number != ''">#{number},</if>
+			<if test="factoryCode != null and factoryCode != ''">#{factoryCode},</if>
+			<if test="createDate != null and createDate != ''">#{createDate},</if>
+			<if test="remark != null and remark != ''">#{remark},</if>
+			<if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateCommodity" parameterType="Commodity">
+        update w_commodity
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null  and code != ''  ">code = #{code},</if>
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="image != null  and image != ''  ">image = #{image},</if>
+            <if test="unit != null  ">unit = #{unit},</if>
+            <if test="number != null  ">number = #{number},</if>
+            <if test="factoryCode != null  and factoryCode != ''  ">factory_code = #{factoryCode},</if>
+            <if test="createDate != null  ">create_date = #{createDate},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteCommodityById" parameterType="Integer">
+        delete from w_commodity where id = #{id}
+    </delete>
+	
+    <delete id="deleteCommodityByIds" parameterType="String">
+        delete from w_commodity where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

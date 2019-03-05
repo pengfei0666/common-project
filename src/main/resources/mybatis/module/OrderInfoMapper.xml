@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.project.module.orderInfo.mapper.OrderInfoMapper">
+    
+    <resultMap type="com.manage.project.module.orderInfo.domain.OrderInfo" id="OrderInfoResult">
+        <result property="id"    column="id"    />
+        <result property="orderCode"    column="order_code"    />
+        <result property="orderTime"    column="order_time"    />
+        <result property="commodityNumber"    column="commodity_number"    />
+        <result property="clientId"    column="client_id"    />
+        <result property="type"    column="type"    />
+        <result property="contactCode"    column="contact_code"    />
+        <result property="updateDate"    column="update_date"    />
+        <result property="createDate"    column="create_date"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+	
+	<sql id="selectOrderInfoVo">
+        select id, order_code, order_time, commodity_number, client_id, type, contact_code, update_date, create_date, del_flag from w_order_info
+    </sql>
+	
+    <select id="selectOrderInfoList" parameterType="OrderInfo" resultMap="OrderInfoResult">
+        <include refid="selectOrderInfoVo"/>
+        <where>  
+            <if test="id != null and id != ''"> and id = #{id}</if>
+             <if test="orderCode != null and orderCode != ''"> and order_code = #{orderCode}</if>
+             <if test="orderTime != null and orderTime != ''"> and order_time = #{orderTime}</if>
+             <if test="commodityNumber != null and commodityNumber != ''"> and commodity_number = #{commodityNumber}</if>
+             <if test="clientId != null and clientId != ''"> and client_id = #{clientId}</if>
+             <if test="type != null and type != ''"> and type = #{type}</if>
+             <if test="contactCode != null and contactCode != ''"> and contact_code = #{contactCode}</if>
+             <if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate}</if>
+             <if test="createDate != null and createDate != ''"> and create_date = #{createDate}</if>
+             <if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag}</if>
+         </where>
+    </select>
+    
+    <select id="selectOrderInfoById" parameterType="Integer" resultMap="OrderInfoResult">
+        <include refid="selectOrderInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOrderInfo" parameterType="OrderInfo">
+        insert into w_order_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">id,</if>
+			<if test="orderCode != null and orderCode != '' ">order_code,</if>
+			<if test="orderTime != null and orderTime != '' ">order_time,</if>
+			<if test="commodityNumber != null and commodityNumber != '' ">commodity_number,</if>
+			<if test="clientId != null and clientId != '' ">client_id,</if>
+			<if test="type != null and type != '' ">type,</if>
+			<if test="contactCode != null and contactCode != '' ">contact_code,</if>
+			<if test="updateDate != null and updateDate != '' ">update_date,</if>
+			<if test="createDate != null and createDate != '' ">create_date,</if>
+			<if test="delFlag != null and delFlag != '' ">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != ''">#{id},</if>
+			<if test="orderCode != null and orderCode != ''">#{orderCode},</if>
+			<if test="orderTime != null and orderTime != ''">#{orderTime},</if>
+			<if test="commodityNumber != null and commodityNumber != ''">#{commodityNumber},</if>
+			<if test="clientId != null and clientId != ''">#{clientId},</if>
+			<if test="type != null and type != ''">#{type},</if>
+			<if test="contactCode != null and contactCode != ''">#{contactCode},</if>
+			<if test="updateDate != null and updateDate != ''">#{updateDate},</if>
+			<if test="createDate != null and createDate != ''">#{createDate},</if>
+			<if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateOrderInfo" parameterType="OrderInfo">
+        update w_order_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderCode != null  and orderCode != ''  ">order_code = #{orderCode},</if>
+            <if test="orderTime != null  ">order_time = #{orderTime},</if>
+            <if test="commodityNumber != null  ">commodity_number = #{commodityNumber},</if>
+            <if test="clientId != null  and clientId != ''  ">client_id = #{clientId},</if>
+            <if test="type != null  ">type = #{type},</if>
+            <if test="contactCode != null  and contactCode != ''  ">contact_code = #{contactCode},</if>
+            <if test="updateDate != null  ">update_date = #{updateDate},</if>
+            <if test="createDate != null  ">create_date = #{createDate},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteOrderInfoById" parameterType="Integer">
+        delete from w_order_info where id = #{id}
+    </delete>
+	
+    <delete id="deleteOrderInfoByIds" parameterType="String">
+        delete from w_order_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

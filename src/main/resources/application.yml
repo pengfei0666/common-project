@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: dev
+    
+#日志输出格式1
+log4jFormatInfo: IP:{} \r\n request:{} \r\n response:{}
+log4jFormatError: IP:{} \r\n request:{} \r\n response:{} \r\n Exception
+ 
+#日志输出格式2
+log4jFormatMethodInfo: IP:{} \r\n  method:{} \r\n request:{} \r\n response:{}
+log4jFormatMethodError: IP:{} \r\n  method:{} \r\n request:{} \r\n response:{} \r\n Exception
