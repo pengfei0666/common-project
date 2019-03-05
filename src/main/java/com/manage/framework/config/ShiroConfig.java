@@ -1,10 +1,16 @@
 package com.manage.framework.config;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import javax.servlet.Filter;
-
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import com.manage.common.utils.StringUtils;
+import com.manage.framework.shiro.realm.UserRealm;
+import com.manage.framework.shiro.session.OnlineSessionDAO;
+import com.manage.framework.shiro.session.OnlineSessionFactory;
+import com.manage.framework.shiro.web.filter.LogoutFilter;
+import com.manage.framework.shiro.web.filter.captcha.CaptchaValidateFilter;
+import com.manage.framework.shiro.web.filter.online.OnlineSessionFilter;
+import com.manage.framework.shiro.web.filter.sync.SyncOnlineSessionFilter;
+import com.manage.framework.shiro.web.session.OnlineWebSessionManager;
+import com.manage.framework.shiro.web.session.SpringSessionValidationScheduler;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
@@ -18,18 +24,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.manage.common.utils.StringUtils;
-import com.manage.framework.shiro.realm.UserRealm;
-import com.manage.framework.shiro.session.OnlineSessionDAO;
-import com.manage.framework.shiro.session.OnlineSessionFactory;
-import com.manage.framework.shiro.web.filter.LogoutFilter;
-import com.manage.framework.shiro.web.filter.captcha.CaptchaValidateFilter;
-import com.manage.framework.shiro.web.filter.online.OnlineSessionFilter;
-import com.manage.framework.shiro.web.filter.sync.SyncOnlineSessionFilter;
-import com.manage.framework.shiro.web.session.OnlineWebSessionManager;
-import com.manage.framework.shiro.web.session.SpringSessionValidationScheduler;
-
-import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import javax.servlet.Filter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * 权限配置加载
@@ -255,6 +252,8 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/logout", "logout");
         // 不需要拦截的访问
         filterChainDefinitionMap.put("/login", "anon,captchaValidate");
+        //微信验证接口
+        filterChainDefinitionMap.put("/wx/**","anon");
         // 系统权限列表
         // filterChainDefinitionMap.putAll(SpringUtils.getBean(IMenuService.class).selectPermsAll());
 
